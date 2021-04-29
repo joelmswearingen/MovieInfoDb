@@ -10,8 +10,8 @@ public class Main {
         String openMovieDbURI = ApiConfig.OMDB_URL;
 
         MovieStore movieStore = new MovieStore(databaseURI);
-        MovieController movieController = new MovieController(movieStore);
         MovieSearch movieSearch = new MovieSearch(openMovieDbURI);
+        MovieController movieController = new MovieController(movieStore, movieSearch);
         movieGUI = new MovieGUI(movieController);
 
 
