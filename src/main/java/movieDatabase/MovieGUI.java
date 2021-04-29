@@ -4,13 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MovieGUI extends JFrame {
+
     private JPanel mainPanel;
     private JTextField searchTextField;
     private JButton searchButton;
-    private JList movieDetailsList;
+    private JList<Movie> movieDetailsList;
     private JButton saveAndRateMovieButton;
     private JButton showAllSavedMoviesButton;
     private JButton saveMovieWithoutRatingButton;
+    private JLabel movieSearchResultsLabel;
 
     private MovieController controller;
 
