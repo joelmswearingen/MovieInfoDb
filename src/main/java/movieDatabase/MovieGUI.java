@@ -7,9 +7,10 @@ public class MovieGUI extends JFrame {
     private JPanel mainPanel;
     private JTextField searchTextField;
     private JButton searchButton;
-    private JList movieList;
-    private JButton saveMovieButton;
+    private JList movieDetailsList;
+    private JButton saveAndRateMovieButton;
     private JButton showAllSavedMoviesButton;
+    private JButton saveMovieWithoutRatingButton;
 
     private MovieController controller;
 
@@ -25,4 +26,5 @@ public class MovieGUI extends JFrame {
 
 
     }
+
 }
