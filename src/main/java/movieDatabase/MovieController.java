@@ -1,5 +1,7 @@
 package movieDatabase;
 
+import java.util.List;
+
 public class MovieController {
 
     MovieStore movieStore;
@@ -10,5 +12,9 @@ public class MovieController {
         movieSearch = search;
 
 
+    }
+
+    protected OmdbResponse openMovieDatabaseQuery(String searchTerm) {
+        return movieSearch.searchOpenMovieDatabase(searchTerm);
     }
 }
