@@ -32,7 +32,7 @@ public class MovieGUI extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        
+
         movieDetailsListModel = new DefaultListModel<>();
         movieDetailsList.setModel(movieDetailsListModel);
         movieDetailsList.setCellRenderer(new MyListCellRenderer());
@@ -89,12 +89,12 @@ public class MovieGUI extends JFrame {
 
             super.getListCellRendererComponent(movieDetailsList, value, index,isSelected,cellHasFocus);
 
-            String title = value.getTitle();
-            String year = value.getYear();
-            String rated = value.getRated();
-            String actors = value.getActors();
-            String metascore = value.getMetascore();
-            String plot = value.getPlot();
+            String title = value.Title;
+            String year = value.Year;
+            String rated = value.Rated;
+            String actors = value.Actors;
+            String metascore = value.Metascore;
+            String plot = value.Plot;
 
             String labelText = "<html>Movie: " + title + "<br/>" +
                     "Year: " + year + "<br/>" +
