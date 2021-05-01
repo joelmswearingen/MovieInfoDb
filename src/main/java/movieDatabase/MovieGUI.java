@@ -36,6 +36,7 @@ public class MovieGUI extends JFrame {
         movieDetailsListModel = new DefaultListModel<>();
         movieDetailsList.setModel(movieDetailsListModel);
         movieDetailsList.setCellRenderer(new MyListCellRenderer());
+        movieDetailsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         eventListeners();
 
@@ -72,22 +73,20 @@ public class MovieGUI extends JFrame {
         movieDetailsListModel.clear();
         if (omdbResponses != null) {
             movieDetailsListModel.addAll(omdbResponses);
-            movieDetailsList.setCellRenderer(new MyListCellRenderer());
-
         }
 
     }
 
-    public static class MyListCellRenderer extends DefaultListCellRenderer {
+    private static class MyListCellRenderer extends JLabel implements ListCellRenderer<OmdbResponse> {
 
+        @Override
         public Component getListCellRendererComponent(
-                JList<OmdbResponse> movieDetailsList,
+                JList movieDetailsList,
                 OmdbResponse value,
                 int index,
                 boolean isSelected,
                 boolean cellHasFocus) {
 
-            super.getListCellRendererComponent(movieDetailsList, value, index,isSelected,cellHasFocus);
 
             String title = value.Title;
             String year = value.Year;
@@ -96,12 +95,14 @@ public class MovieGUI extends JFrame {
             String metascore = value.Metascore;
             String plot = value.Plot;
 
-            String labelText = "<html>Movie: " + title + "<br/>" +
+            int jListWidth = movieDetailsList.getWidth();
+
+            String labelText = "<html><body style='width: " + jListWidth + "px;>Movie: " + title + "<br/>" +
                     "Year: " + year + "<br/>" +
                     "Rated: " + rated + "<br/>" +
                     "Starring: " + actors + "<br/>" +
                     "Rating: " + metascore + "<br/>" +
-                    "Plot:" + plot;
+                    "Plot:" + plot + "</body></html>";
 
             setText(labelText);
 
