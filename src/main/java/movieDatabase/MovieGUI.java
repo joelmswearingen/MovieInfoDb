@@ -64,7 +64,8 @@ public class MovieGUI extends JFrame {
                         omdbResponseList.add(response);
                         setListData(omdbResponseList);
                     } else {
-                        movieSearchResultsLabel.setText("Movie not found. Please try again.");
+                        movieDetailsListModel.clear();
+                        movieSearchResultsLabel.setText("\"" + searchTerm + "\" not found. Please try again.");
                         Timer timer = new Timer(5000, event -> {
                            movieSearchResultsLabel.setText("");
                         });
@@ -72,6 +73,7 @@ public class MovieGUI extends JFrame {
                         timer.start();
 
                     }
+                    searchTextField.setText("");
                 }
 
             }
