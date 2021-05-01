@@ -26,16 +26,15 @@ public class OmdbResponse {
 
     // converts object to human readable string
 
-    @Override
-    public String toString() {
-        return "Movie: " + Title + "\n" +
-                "Year: " + Year + "\n" +
-                "Rated: " + Rated + "\n" +
-                "Starring: " + Actors + "\n" +
-                "Rating: " + Metascore + "\n" +
-                "Plot:" + Plot;
-    }
-
+//    @Override
+//    public String toString() {
+//        return "Movie: " + Title + "\n" +
+//                "Year: " + Year + "\n" +
+//                "Rated: " + Rated + "\n" +
+//                "Starring: " + Actors + "\n" +
+//                "Rating: " + Metascore + "\n" +
+//                "Plot:" + Plot;
+//    }
 
 
 

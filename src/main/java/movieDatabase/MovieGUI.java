@@ -27,7 +27,7 @@ public class MovieGUI extends JFrame {
 
         setTitle("Open Movie Database Movie Finder");
         setContentPane(mainPanel);
-        setPreferredSize(new Dimension(500, 400));
+        setPreferredSize(new Dimension(550, 450));
         pack();
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -58,9 +58,18 @@ public class MovieGUI extends JFrame {
                     errorDialog("Search field cannot be blank");
                 } else {
                     OmdbResponse response = controller.openMovieDatabaseQuery(searchTerm);
-                    if (response != null) {
+
+                    String movieTitle = response.Title;
+                    if (movieTitle != null) {
                         omdbResponseList.add(response);
                         setListData(omdbResponseList);
+                    } else {
+                        movieSearchResultsLabel.setText("Movie not found. Please try again.");
+                        Timer timer = new Timer(5000, event -> {
+                           movieSearchResultsLabel.setText("");
+                        });
+                        timer.setRepeats(false);
+                        timer.start();
 
                     }
                 }
@@ -76,41 +85,6 @@ public class MovieGUI extends JFrame {
         }
 
     }
-
-    private static class MyListCellRenderer extends JLabel implements ListCellRenderer<OmdbResponse> {
-
-        @Override
-        public Component getListCellRendererComponent(
-                JList movieDetailsList,
-                OmdbResponse value,
-                int index,
-                boolean isSelected,
-                boolean cellHasFocus) {
-
-
-            String title = value.Title;
-            String year = value.Year;
-            String rated = value.Rated;
-            String actors = value.Actors;
-            String metascore = value.Metascore;
-            String plot = value.Plot;
-
-            int jListWidth = movieDetailsList.getWidth();
-
-            String labelText = "<html><body style='width: " + jListWidth + "px;>Movie: " + title + "<br/>" +
-                    "Year: " + year + "<br/>" +
-                    "Rated: " + rated + "<br/>" +
-                    "Starring: " + actors + "<br/>" +
-                    "Rating: " + metascore + "<br/>" +
-                    "Plot:" + plot + "</body></html>";
-
-            setText(labelText);
-
-            return this;
-
-        }
-    }
-
 
 
     private void errorDialog(String errorMessage) {
