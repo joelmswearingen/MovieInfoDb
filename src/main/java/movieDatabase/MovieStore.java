@@ -20,7 +20,7 @@ public class MovieStore {
             String createMovieTableSQL = "CREATE TABLE IF NOT EXISTS movie " +
                     "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "movieTitle TEXT, " +
-                    "year INTEGER, " +
+                    "year TEXT, " +
                     "moviePlot TEXT, " +
                     "metascore INTEGER, " +
                     "userRating REAL CHECK (userRating >= 1 AND userRating <= 5)," +
@@ -48,12 +48,8 @@ public class MovieStore {
             // set parameter 1
             preparedStatement.setString(1, movieToAdd.getTitle());
 
-            // set parameter 2, entering null if year field is 0
-            if (movieToAdd.getYear() != 0) {
-                preparedStatement.setInt(2, movieToAdd.getYear());
-            } else {
-                preparedStatement.setNull(2, Types.INTEGER);
-            }
+            // set parameter 2
+            preparedStatement.setString(2, movieToAdd.getYear());
 
             // set parameter 3
             preparedStatement.setString(3, movieToAdd.getPlot());

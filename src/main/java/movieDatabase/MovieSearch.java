@@ -33,6 +33,8 @@ public class MovieSearch {
 
         return Unirest.get(omdbURI)
                 .queryString("t", searchTerm)
+                .queryString("type", "movie") // restrict results to movies only so that only single years are returned
+                .queryString("plot", "full")
                 .asObject(OmdbResponse.class).getBody();
 
     }

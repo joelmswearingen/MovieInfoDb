@@ -6,7 +6,7 @@ public class Movie {
 
     private int id;
     private String title;
-    private int year;
+    private String year;
     private String plot;
     private int metascore;
     private double userRating;
@@ -14,7 +14,7 @@ public class Movie {
     private Date dateUpdated;
 
     // constructor for when a Movie objects is passed to the MovieStore without an updated userRating
-    public Movie(String title, int year, String plot,
+    public Movie(String title, String year, String plot,
                  int metascore, double userRating, Date dateAdded, Date dateUpdated) {
         this.title = title;
         this.year = year;
@@ -26,7 +26,7 @@ public class Movie {
     }
 
     // constructor for when a Movie object is passed to the RateMovieGUI to have user Rating applied
-    public Movie(String title, int year, String plot,
+    public Movie(String title, String year, String plot,
                  int metascore, double userRating) {
         this.title = title;
         this.year = year;
@@ -51,11 +51,11 @@ public class Movie {
         this.title = title;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 

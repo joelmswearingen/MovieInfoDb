@@ -48,14 +48,10 @@ public class RateMovieGUI extends JFrame {
 
         // set movie title and year that is being reviewed on opening
         String title = movieToRate.getTitle();
-        int year = movieToRate.getYear();
+        String year = movieToRate.getYear();
 
         // set movie Title and Year found in Movie object
-        if (year == 0) {
-            movieTitleAndYear.setText(title + " (N/A)");
-        } else {
-            movieTitleAndYear.setText(title + " (" + year + ")");
-        }
+        movieTitleAndYear.setText(title + " (" + year + ")");
 
         eventListeners();
 

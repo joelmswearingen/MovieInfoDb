@@ -90,19 +90,12 @@ public class MovieGUI extends JFrame {
                 // get selected fields from object to be added to new Movie object for INSERT into db
                 try {
                     String title = selectedMovie.Title;
-                    String yearAsString = selectedMovie.Year;
+                    String year = selectedMovie.Year;
                     String plot = selectedMovie.Plot;
                     String scoreAsString = selectedMovie.Metascore;
 
-                    // set year to 0 (which will be added to Movie object)
-                    // MovieStore will set "0" year values as null in db
-                    int year = 0;
-                    if (!yearAsString.equalsIgnoreCase("N/A")) {
-                        year = Integer.parseInt(yearAsString);
-                    }
-
                     // set score to 0 (which will be added to Movie object)
-                    // MovieStore will set "0" year values as null in db
+                    // MovieStore will set "0" score values as null in db
                     int score = 0;
                     if(!scoreAsString.equalsIgnoreCase("N/A")) {
                         score = Integer.parseInt(scoreAsString);
@@ -138,16 +131,9 @@ public class MovieGUI extends JFrame {
                 // get selected fields from object to be added to new Movie object for INSERT into db
                 try {
                     String title = selectedMovie.Title;
-                    String yearAsString = selectedMovie.Year;
+                    String year = selectedMovie.Year;
                     String plot = selectedMovie.Plot;
                     String scoreAsString = selectedMovie.Metascore;
-
-                    // set year to 0 (which will be added to Movie object)
-                    // MovieStore will set "0" year values as null in db
-                    int year = 0;
-                    if (!yearAsString.equalsIgnoreCase("N/A")) {
-                        year = Integer.parseInt(yearAsString);
-                    }
 
                     // set score to 0 (which will be added to Movie object)
                     // MovieStore will set "0" year values as null in db
