@@ -29,10 +29,11 @@ public class MovieSearch {
     }
 
 
-    public OmdbResponse searchOpenMovieDatabase(String searchTerm) {
+    public OmdbResponse searchOpenMovieDatabase(String searchTerm, String searchYear) {
 
         return Unirest.get(omdbURI)
                 .queryString("t", searchTerm)
+                .queryString("y", searchYear)
                 .queryString("type", "movie") // restrict results to movies only so that only single years are returned
                 .queryString("plot", "full")
                 .asObject(OmdbResponse.class).getBody();

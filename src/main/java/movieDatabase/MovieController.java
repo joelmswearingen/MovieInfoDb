@@ -14,8 +14,8 @@ public class MovieController {
     }
 
 
-    protected OmdbResponse openMovieDatabaseQuery(String searchTerm) {
-        return movieSearch.searchOpenMovieDatabase(searchTerm);
+    protected OmdbResponse openMovieDatabaseQuery(String searchTerm, String searchYear) {
+        return movieSearch.searchOpenMovieDatabase(searchTerm, searchYear);
     }
 
 
@@ -28,8 +28,8 @@ public class MovieController {
         }
     }
 
-    protected boolean searchDbByMovieTitle(String omdbMovieTitle) {
-        return movieStore.searchByTitle(omdbMovieTitle);
+    protected boolean searchDbByMovieTitle(String omdbMovieTitle, String omdbMovieYear) {
+        return movieStore.searchByTitle(omdbMovieTitle, omdbMovieYear);
     }
 
 

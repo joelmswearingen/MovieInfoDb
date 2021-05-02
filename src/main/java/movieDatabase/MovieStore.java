@@ -85,14 +85,22 @@ public class MovieStore {
 
     }
 
-    public boolean searchByTitle(String omdbMovieTitle) {
 
-        String searchByMovieTitleSQL = "SELECT * FROM movie WHERE movieTitle = ?";
+    public boolean searchByTitle(String omdbMovieTitle, String omdbMovieYear) {
+
+        String searchByMovieTitleSQL;
+
+        if (omdbMovieYear.isBlank()) {
+            searchByMovieTitleSQL = "SELECT * FROM movie WHERE movieTitle = ?";
+        } else {
+            searchByMovieTitleSQL = "SELECT * FROM movie WHERE movieTitle = ? AND year = ?";
+        }
 
         try (Connection connection = DriverManager.getConnection(dbURI);
              PreparedStatement preparedStatement = connection.prepareStatement(searchByMovieTitleSQL)) {
 
             preparedStatement.setString(1, omdbMovieTitle);
+            preparedStatement.setString(2, omdbMovieYear);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

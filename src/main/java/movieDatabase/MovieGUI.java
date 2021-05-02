@@ -18,6 +18,7 @@ public class MovieGUI extends JFrame {
     private JButton showAllSavedMoviesButton;
     private JButton saveMovieWithoutRatingButton;
     private JLabel movieSearchResultsLabel;
+    private JTextField optionalYearTextField;
 
     private DefaultListModel<OmdbResponse> movieDetailsListModel;
 
@@ -28,7 +29,7 @@ public class MovieGUI extends JFrame {
 
         setTitle("Open Movie Database Movie Finder");
         setContentPane(mainPanel);
-        setPreferredSize(new Dimension(550, 400));
+        setPreferredSize(new Dimension(700, 375));
         pack();
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -49,9 +50,13 @@ public class MovieGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // get text entered in searchTextField and trim
+                // get text entered in searchTextField and optionalYearTextField and trim each
                 String searchTerm = searchTextField.getText();
                 searchTerm = searchTerm.trim();
+
+                String searchYear = optionalYearTextField.getText();
+                searchYear = searchYear.trim();
+
                 // clear the listModel, to clean the GUI up.
                 clearListData();
 
@@ -60,7 +65,7 @@ public class MovieGUI extends JFrame {
                 if (searchTerm.isBlank()) {
                     errorDialog("Search field cannot be blank");
                 } else {
-                    OmdbResponse response = controller.openMovieDatabaseQuery(searchTerm);
+                    OmdbResponse response = controller.openMovieDatabaseQuery(searchTerm, searchYear);
 
                     String movieTitle = response.Title;
                     if (movieTitle != null) {
@@ -71,6 +76,7 @@ public class MovieGUI extends JFrame {
                         setMovieSearchResultsLabelWithTimer("\"" + searchTerm + "\" not found. Please try again.");
                     }
                     searchTextField.setText("");
+                    optionalYearTextField.setText("");
                 }
 
             }
@@ -82,14 +88,17 @@ public class MovieGUI extends JFrame {
 
                 // get selected item from movieDetailsList JList
                 OmdbResponse selectedMovie = movieDetailsList.getSelectedValue();
-                 if (selectedMovie == null) {
+                if (selectedMovie == null) {
                      errorDialog("Please select a movie");
                      return;
-                 }
+                }
 
+                // get title from omdbResponse object and validate movie title does not already exist in db
                 String omdbTitle = selectedMovie.Title;
-                boolean existsInDb = controller.searchDbByMovieTitle(omdbTitle);
+                String omdbYear = selectedMovie.Year;
+                boolean existsInDb = controller.searchDbByMovieTitle(omdbTitle, omdbYear);
 
+                // if the movie title is found in db, display error to the user and interrupt actionListener
                 if (existsInDb) {
                     errorDialog("You have already saved \"" + omdbTitle + "\" to your Movie List. " +
                             "Please navigate to \"Show All Saved Movies\" to review or update rating.");
@@ -137,9 +146,12 @@ public class MovieGUI extends JFrame {
                     return;
                 }
 
+                // get title from omdbResponse object and validate movie title does not already exist in db
                 String omdbTitle = selectedMovie.Title;
-                boolean existsInDb = controller.searchDbByMovieTitle(omdbTitle);
+                String omdbYear = selectedMovie.Year;
+                boolean existsInDb = controller.searchDbByMovieTitle(omdbTitle, omdbYear);
 
+                // if the movie title is found in db, display error to the user and interrupt actionListener
                 if (existsInDb) {
                     errorDialog("You have already saved \"" + omdbTitle + "\" to your Movie List. " +
                             "Please navigate to \"Show All Saved Movies\" to review or update rating.");
