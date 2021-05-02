@@ -45,13 +45,9 @@ public class MovieStore {
         try (Connection connection = DriverManager.getConnection(dbURI);
              PreparedStatement preparedStatement = connection.prepareStatement(addMovie)) {
 
-            // set parameter 1
+            // set parameter 1, 2, and 3
             preparedStatement.setString(1, movieToAdd.getTitle());
-
-            // set parameter 2
             preparedStatement.setString(2, movieToAdd.getYear());
-
-            // set parameter 3
             preparedStatement.setString(3, movieToAdd.getPlot());
 
             // set parameter 4, entering null if metascore field is 0
