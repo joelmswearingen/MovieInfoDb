@@ -28,5 +28,9 @@ public class MovieController {
         }
     }
 
+    protected boolean searchDbByMovieTitle(String omdbMovieTitle) {
+        return movieStore.searchByTitle(omdbMovieTitle);
+    }
+
 
 }

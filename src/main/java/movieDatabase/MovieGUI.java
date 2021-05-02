@@ -87,6 +87,15 @@ public class MovieGUI extends JFrame {
                      return;
                  }
 
+                String omdbTitle = selectedMovie.Title;
+                boolean existsInDb = controller.searchDbByMovieTitle(omdbTitle);
+
+                if (existsInDb) {
+                    errorDialog("You have already saved \"" + omdbTitle + "\" to your Movie List. " +
+                            "Please navigate to \"Show All Saved Movies\" to review or update rating.");
+                    return;
+                }
+
                 // get selected fields from object to be added to new Movie object for INSERT into db
                 try {
                     String title = selectedMovie.Title;
@@ -125,6 +134,15 @@ public class MovieGUI extends JFrame {
                 OmdbResponse selectedMovie = movieDetailsList.getSelectedValue();
                 if (selectedMovie == null) {
                     errorDialog("Please select a movie");
+                    return;
+                }
+
+                String omdbTitle = selectedMovie.Title;
+                boolean existsInDb = controller.searchDbByMovieTitle(omdbTitle);
+
+                if (existsInDb) {
+                    errorDialog("You have already saved \"" + omdbTitle + "\" to your Movie List. " +
+                            "Please navigate to \"Show All Saved Movies\" to review or update rating.");
                     return;
                 }
 
@@ -187,7 +205,6 @@ public class MovieGUI extends JFrame {
         timer.setRepeats(false);
         timer.start();
     }
-
 
     private void errorDialog(String errorMessage) {
         JOptionPane.showMessageDialog(MovieGUI.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);

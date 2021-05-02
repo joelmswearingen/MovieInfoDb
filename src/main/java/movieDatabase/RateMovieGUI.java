@@ -104,6 +104,7 @@ public class RateMovieGUI extends JFrame {
         JOptionPane.showMessageDialog(RateMovieGUI.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    // code solicited from example found at https://www.codejava.net/java-se/swing/jradiobutton-basic-tutorial-and-examples
     class RadioButtonActionListener implements ActionListener {
         double userRating;
 

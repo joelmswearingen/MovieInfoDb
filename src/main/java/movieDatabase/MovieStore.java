@@ -38,12 +38,12 @@ public class MovieStore {
     public void addMovie(Movie movieToAdd) throws SQLException {
 
         // SQL Statement to INSERT record into 'movie' table
-        String addMovie = "INSERT INTO movie (movieTitle, year, moviePlot, metascore, userRating, dateAdded, dateUpdated) " +
+        String addMovieSQL = "INSERT INTO movie (movieTitle, year, moviePlot, metascore, userRating, dateAdded, dateUpdated) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         // try-with-resources to apply movieToAdd object fields to expectant parameters in addMovie SQL statement
         try (Connection connection = DriverManager.getConnection(dbURI);
-             PreparedStatement preparedStatement = connection.prepareStatement(addMovie)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(addMovieSQL)) {
 
             // set parameter 1, 2, and 3
             preparedStatement.setString(1, movieToAdd.getTitle());
@@ -84,5 +84,26 @@ public class MovieStore {
         }
 
     }
+
+    public boolean searchByTitle(String omdbMovieTitle) {
+
+        String searchByMovieTitleSQL = "SELECT * FROM movie WHERE movieTitle = ?";
+
+        try (Connection connection = DriverManager.getConnection(dbURI);
+             PreparedStatement preparedStatement = connection.prepareStatement(searchByMovieTitleSQL)) {
+
+            preparedStatement.setString(1, omdbMovieTitle);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+
+        } catch (SQLException sqle) {
+            System.err.println("Error: " + sqle);
+            return false;
+        }
+
+    }
+
 
 }
