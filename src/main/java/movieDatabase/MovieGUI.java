@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +53,7 @@ public class MovieGUI extends JFrame {
                 String searchTerm = searchTextField.getText();
                 searchTerm = searchTerm.trim();
                 // clear the listModel, to clean the GUI up.
-                movieDetailsListModel.clear();
+                clearListData();
 
                 List<OmdbResponse> omdbResponseList = new ArrayList<>();
 
@@ -68,14 +67,8 @@ public class MovieGUI extends JFrame {
                         omdbResponseList.add(response);
                         setListData(omdbResponseList);
                     } else {
-                        movieDetailsListModel.clear();
-                        movieSearchResultsLabel.setText("\"" + searchTerm + "\" not found. Please try again.");
-                        Timer timer = new Timer(5000, event -> {
-                           movieSearchResultsLabel.setText("");
-                        });
-                        timer.setRepeats(false);
-                        timer.start();
-
+                        clearListData();
+                        setMovieSearchResultsLabelWithTimer("\"" + searchTerm + "\" not found. Please try again.");
                     }
                     searchTextField.setText("");
                 }
@@ -86,7 +79,6 @@ public class MovieGUI extends JFrame {
         rateAndSaveMovieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
 
                 // get selected item from movieDetailsList JList
                 OmdbResponse selectedMovie = movieDetailsList.getSelectedValue();
@@ -122,16 +114,71 @@ public class MovieGUI extends JFrame {
 
                     Main.rateMovieGUI = new RateMovieGUI(controller, movieToRate);
 
+                    // TODO how to make these execute after new RateMovieGUI screen is disposed.
+                    clearListData();
+                    setMovieSearchResultsLabelWithTimer(title + " has been added to your Movies List!");
 
                 } catch (NumberFormatException nfe) {
                     System.err.println("Error: " + nfe);
                     throw nfe;
                 }
-
-
-
             }
         });
+
+        saveMovieWithoutRatingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // get selected item from movieDetailsList JList
+                OmdbResponse selectedMovie = movieDetailsList.getSelectedValue();
+                if (selectedMovie == null) {
+                    errorDialog("Please select a movie");
+                    return;
+                }
+
+                // get selected fields from object to be added to new Movie object for INSERT into db
+                try {
+                    String title = selectedMovie.Title;
+                    String yearAsString = selectedMovie.Year;
+                    String plot = selectedMovie.Plot;
+                    String scoreAsString = selectedMovie.Metascore;
+
+                    // set year to 0 (which will be added to Movie object)
+                    // MovieStore will set "0" year values as null in db
+                    int year = 0;
+                    if (!yearAsString.equalsIgnoreCase("N/A")) {
+                        year = Integer.parseInt(yearAsString);
+                    }
+
+                    // set score to 0 (which will be added to Movie object)
+                    // MovieStore will set "0" year values as null in db
+                    int score = 0;
+                    if(!scoreAsString.equalsIgnoreCase("N/A")) {
+                        score = Integer.parseInt(scoreAsString);
+                    }
+
+                    double userRating = 0.0; // set user rating to 0, database will commit 0's as null
+
+                    Date date = new Date();
+
+                    Movie movieToRate = new Movie(title, year, plot, score, userRating, date, date);
+
+                    boolean added = controller.addMovieToDatabase(movieToRate);
+
+                    if (added) {
+                        clearListData();
+                        setMovieSearchResultsLabelWithTimer(title + " has been added to your Movies List!");
+                    } else {
+                        errorDialog("Something went wrong. Please try again.");
+                    }
+
+                } catch (NumberFormatException nfe) {
+                    System.err.println("Error: " + nfe);
+                    throw nfe;
+                }
+            }
+        });
+
+
     }
 
     private void setListData(List<OmdbResponse> omdbResponses) {
@@ -140,6 +187,19 @@ public class MovieGUI extends JFrame {
             movieDetailsListModel.addAll(omdbResponses);
         }
 
+    }
+
+    private void clearListData() {
+        movieDetailsListModel.clear();
+    }
+
+    private void setMovieSearchResultsLabelWithTimer(String label) {
+        movieSearchResultsLabel.setText(label);
+        Timer timer = new Timer(5000, event -> {
+            movieSearchResultsLabel.setText("");
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 
 
