@@ -100,8 +100,8 @@ public class MovieGUI extends JFrame {
 
                 // if the movie title is found in db, display error to the user and interrupt actionListener
                 if (existsInDb) {
-                    errorDialog("You have already saved \"" + omdbTitle + "\" to your Movie List. " +
-                            "Please navigate to \"Show All Saved Movies\" to review or update rating.");
+                    errorDialog("You have already saved \"" + omdbTitle + "\" to your Movie List.  " +
+                            "Please navigate to \"Show All Saved Movies\" to review list and update ratings.");
                     return;
                 }
 
@@ -153,8 +153,8 @@ public class MovieGUI extends JFrame {
 
                 // if the movie title is found in db, display error to the user and interrupt actionListener
                 if (existsInDb) {
-                    errorDialog("You have already saved \"" + omdbTitle + "\" to your Movie List. " +
-                            "Please navigate to \"Show All Saved Movies\" to review or update rating.");
+                    errorDialog("You have already saved \"" + omdbTitle + "\" to your Movie List.  " +
+                            "Please navigate to \"Show All Saved Movies\" to review list and update ratings.");
                     return;
                 }
 
@@ -219,7 +219,8 @@ public class MovieGUI extends JFrame {
     }
 
     private void errorDialog(String errorMessage) {
-        JOptionPane.showMessageDialog(MovieGUI.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+        String html = "<html><body style='width: %1spx'>%1s";
+        JOptionPane.showMessageDialog(MovieGUI.this, String.format(html, 200, errorMessage), "Error", JOptionPane.ERROR_MESSAGE);
     }
 
 
