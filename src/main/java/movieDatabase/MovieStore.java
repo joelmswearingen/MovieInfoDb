@@ -15,7 +15,7 @@ public class MovieStore {
 
         // create movie table, if it does not already exists
         try (Connection connection = DriverManager.getConnection(dbURI);
-             Statement createMovieTable = connection.createStatement()) {
+             Statement statement = connection.createStatement()) {
 
             String createMovieTableSQL = "CREATE TABLE IF NOT EXISTS movie " +
                     "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -27,7 +27,7 @@ public class MovieStore {
                     "dateAdded INTEGER, " +
                     "dateUpdated INTEGER)";
 
-            createMovieTable.execute(createMovieTableSQL);
+            statement.execute(createMovieTableSQL);
 
         } catch (SQLException sqle) {
             System.err.println("Error creating 'movie' table. Error: " + sqle);
