@@ -1,5 +1,7 @@
 package movieDatabase;
 
+import java.util.Date;
+
 public class Movie {
 
     private int id;
@@ -8,9 +10,24 @@ public class Movie {
     private String plot;
     private int metascore;
     private double userRating;
+    private Date dateAdded;
+    private Date dateUpdated;
 
-    public Movie(int id, String title, int year, String plot, int metascore, double userRating) {
-        this.id = id;
+    // constructor for when a Movie objects is passed to the MovieStore without an updated userRating
+    public Movie(String title, int year, String plot,
+                 int metascore, double userRating, Date dateAdded, Date dateUpdated) {
+        this.title = title;
+        this.year = year;
+        this.plot = plot;
+        this.metascore = metascore;
+        this.userRating = userRating;
+        this.dateAdded = dateAdded;
+        this.dateUpdated = dateUpdated;
+    }
+
+    // constructor for when a Movie object is passed to the RateMovieGUI to have user Rating applied
+    public Movie(String title, int year, String plot,
+                 int metascore, double userRating) {
         this.title = title;
         this.year = year;
         this.plot = plot;
@@ -64,6 +81,22 @@ public class Movie {
 
     public void setUserRating(double userRating) {
         this.userRating = userRating;
+    }
+
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public Date getDateUpdated() {
+        return dateUpdated;
+    }
+
+    public void setDateUpdated(Date dateUpdated) {
+        this.dateUpdated = dateUpdated;
     }
 
     @Override

@@ -4,6 +4,7 @@ package movieDatabase;
 public class Main {
 
     static MovieGUI movieGUI;
+    static RateMovieGUI rateMovieGUI;
 
     public static void main(String[] args) {
         String databaseURI = DbConfig.dbURI;

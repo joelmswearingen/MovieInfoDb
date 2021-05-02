@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MovieGUI extends JFrame {
@@ -13,7 +15,7 @@ public class MovieGUI extends JFrame {
     private JTextField searchTextField;
     private JButton searchButton;
     private JList<OmdbResponse> movieDetailsList;
-    private JButton saveAndRateMovieButton;
+    private JButton rateAndSaveMovieButton;
     private JButton showAllSavedMoviesButton;
     private JButton saveMovieWithoutRatingButton;
     private JLabel movieSearchResultsLabel;
@@ -27,7 +29,7 @@ public class MovieGUI extends JFrame {
 
         setTitle("Open Movie Database Movie Finder");
         setContentPane(mainPanel);
-        setPreferredSize(new Dimension(550, 450));
+        setPreferredSize(new Dimension(550, 400));
         pack();
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -51,6 +53,8 @@ public class MovieGUI extends JFrame {
                 // get text entered in searchTextField and trim
                 String searchTerm = searchTextField.getText();
                 searchTerm = searchTerm.trim();
+                // clear the listModel, to clean the GUI up.
+                movieDetailsListModel.clear();
 
                 List<OmdbResponse> omdbResponseList = new ArrayList<>();
 
@@ -75,6 +79,56 @@ public class MovieGUI extends JFrame {
                     }
                     searchTextField.setText("");
                 }
+
+            }
+        });
+
+        rateAndSaveMovieButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                // get selected item from movieDetailsList JList
+                OmdbResponse selectedMovie = movieDetailsList.getSelectedValue();
+                 if (selectedMovie == null) {
+                     errorDialog("Please select a movie");
+                     return;
+                 }
+
+                // get selected fields from object to be added to new Movie object for INSERT into db
+                try {
+                    String title = selectedMovie.Title;
+                    String yearAsString = selectedMovie.Year;
+                    String plot = selectedMovie.Plot;
+                    String scoreAsString = selectedMovie.Metascore;
+
+                    // set year to 0 (which will be added to Movie object)
+                    // MovieStore will set "0" year values as null in db
+                    int year = 0;
+                    if (!yearAsString.equalsIgnoreCase("N/A")) {
+                        year = Integer.parseInt(yearAsString);
+                    }
+
+                    // set score to 0 (which will be added to Movie object)
+                    // MovieStore will set "0" year values as null in db
+                    int score = 0;
+                    if(!scoreAsString.equalsIgnoreCase("N/A")) {
+                        score = Integer.parseInt(scoreAsString);
+                    }
+
+                    double userRating = 0.0; // set user rating to 0 as it has not been defined yet
+
+                    Movie movieToRate = new Movie(title, year, plot, score, userRating);
+
+                    Main.rateMovieGUI = new RateMovieGUI(controller, movieToRate);
+
+
+                } catch (NumberFormatException nfe) {
+                    System.err.println("Error: " + nfe);
+                    throw nfe;
+                }
+
+
 
             }
         });
