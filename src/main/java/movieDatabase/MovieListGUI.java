@@ -5,6 +5,8 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -53,8 +55,27 @@ public class MovieListGUI extends JFrame {
 //        defaultTableColumnModel.getColumn(4).setPreferredWidth(20);
         
         List<Movie> allMovies = controller.getAllMoviesFromDatabase();
+        setTableData(allMovies);
 
-        for (Movie movie : allMovies) {
+        eventListeners();
+
+
+
+    }
+
+    private void eventListeners() {
+        updateMovieRatingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int movieRecord = movieListTable.getSelectedRow(); // gives you row index
+                System.out.println(movieRecord);
+            }
+        });
+
+    }
+
+    private void setTableData(List<Movie> movies) {
+        for (Movie movie : movies) {
             String id = String.valueOf(movie.getId());
             String title = movie.getTitle();
             String year = movie.getYear();
@@ -66,8 +87,6 @@ public class MovieListGUI extends JFrame {
             defaultTableModel.addRow(m);
 
         }
-
-
     }
 
 }
