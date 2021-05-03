@@ -85,7 +85,6 @@ public class MovieGUI extends JFrame {
         rateAndSaveMovieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 // get selected item from movieDetailsList JList
                 OmdbResponse selectedMovie = movieDetailsList.getSelectedValue();
                 if (selectedMovie == null) {
@@ -97,7 +96,6 @@ public class MovieGUI extends JFrame {
                 String omdbTitle = selectedMovie.Title;
                 String omdbYear = selectedMovie.Year;
                 boolean existsInDb = controller.searchDbByMovieTitle(omdbTitle, omdbYear);
-
                 // if the movie title is found in db, display error to the user and interrupt actionListener
                 if (existsInDb) {
                     errorDialog("You have already saved \"" + omdbTitle + "\" to your Movie List.  " +
@@ -111,24 +109,19 @@ public class MovieGUI extends JFrame {
                     String year = selectedMovie.Year;
                     String plot = selectedMovie.Plot;
                     String scoreAsString = selectedMovie.Metascore;
-
                     // set score to 0 (which will be added to Movie object)
                     // MovieStore will set "0" score values as null in db
                     int score = 0;
                     if(!scoreAsString.equalsIgnoreCase("N/A")) {
                         score = Integer.parseInt(scoreAsString);
                     }
-
                     double userRating = 0.0; // set user rating to 0 as it has not been defined yet
-
                     Movie movieToRate = new Movie(title, year, plot, score, userRating);
 
                     Main.rateMovieGUI = new RateMovieGUI(controller, movieToRate);
-
                     // TODO how to make these execute after new RateMovieGUI screen is disposed.
                     clearListData();
                     setMovieSearchResultsLabelWithTimer(title + " has been added to your Movies List!");
-
                 } catch (NumberFormatException nfe) {
                     System.err.println("Error: " + nfe);
                     throw nfe;
@@ -150,7 +143,6 @@ public class MovieGUI extends JFrame {
                 String omdbTitle = selectedMovie.Title;
                 String omdbYear = selectedMovie.Year;
                 boolean existsInDb = controller.searchDbByMovieTitle(omdbTitle, omdbYear);
-
                 // if the movie title is found in db, display error to the user and interrupt actionListener
                 if (existsInDb) {
                     errorDialog("You have already saved \"" + omdbTitle + "\" to your Movie List.  " +
@@ -164,33 +156,33 @@ public class MovieGUI extends JFrame {
                     String year = selectedMovie.Year;
                     String plot = selectedMovie.Plot;
                     String scoreAsString = selectedMovie.Metascore;
-
                     // set score to 0 (which will be added to Movie object)
                     // MovieStore will set "0" year values as null in db
                     int score = 0;
                     if(!scoreAsString.equalsIgnoreCase("N/A")) {
                         score = Integer.parseInt(scoreAsString);
                     }
-
                     double userRating = 0.0; // set user rating to 0, database will commit 0's as null
-
                     Date date = new Date();
-
                     Movie movieToRate = new Movie(title, year, plot, score, userRating, date, date);
-
                     boolean added = controller.addMovieToDatabase(movieToRate);
-
                     if (added) {
                         clearListData();
                         setMovieSearchResultsLabelWithTimer(title + " has been added to your Movies List!");
                     } else {
                         errorDialog("Something went wrong. Please try again.");
                     }
-
                 } catch (NumberFormatException nfe) {
                     System.err.println("Error: " + nfe);
                     throw nfe;
                 }
+            }
+        });
+
+        showAllSavedMoviesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.movieListGUI = new MovieListGUI(controller);
             }
         });
 
@@ -202,12 +194,9 @@ public class MovieGUI extends JFrame {
         if (omdbResponses != null) {
             movieDetailsListModel.addAll(omdbResponses);
         }
-
     }
 
-    private void clearListData() {
-        movieDetailsListModel.clear();
-    }
+    private void clearListData() { movieDetailsListModel.clear(); }
 
     private void setMovieSearchResultsLabelWithTimer(String label) {
         movieSearchResultsLabel.setText(label);
@@ -218,9 +207,14 @@ public class MovieGUI extends JFrame {
         timer.start();
     }
 
+    // word wrap in JOptionPane code found here: https://stackoverflow.com/questions/7861724/is-there-a-word-wrap-property-for-jlabel/7861833#7861833
     private void errorDialog(String errorMessage) {
         String html = "<html><body style='width: %1spx'>%1s";
-        JOptionPane.showMessageDialog(MovieGUI.this, String.format(html, 200, errorMessage), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(
+                MovieGUI.this,
+                String.format(html, 200, errorMessage),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
     }
 
 

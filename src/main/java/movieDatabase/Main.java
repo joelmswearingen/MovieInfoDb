@@ -5,6 +5,7 @@ public class Main {
 
     static MovieGUI movieGUI;
     static RateMovieGUI rateMovieGUI;
+    static MovieListGUI movieListGUI;
 
     public static void main(String[] args) {
         String databaseURI = DbConfig.dbURI;

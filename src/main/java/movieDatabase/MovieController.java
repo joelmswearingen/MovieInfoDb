@@ -32,5 +32,9 @@ public class MovieController {
         return movieStore.searchByTitle(omdbMovieTitle, omdbMovieYear);
     }
 
+    protected List<Movie> getAllMoviesFromDatabase() {
+        return movieStore.getAllMovies();
+    }
+
 
 }

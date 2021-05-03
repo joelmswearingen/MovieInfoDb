@@ -2,6 +2,8 @@ package movieDatabase;
 
 import java.lang.reflect.Type;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovieStore {
 
@@ -111,6 +113,36 @@ public class MovieStore {
             return false;
         }
 
+    }
+
+    public List<Movie> getAllMovies() {
+
+        try(Connection connection = DriverManager.getConnection(dbURI);
+            Statement statement = connection.createStatement()) {
+
+            List<Movie> allMovies = new ArrayList<>();
+
+            String selectAllMoviesSQL = "SELECT id, movieTitle, year, metascore, userRating FROM movie ORDER BY movieTitle";
+
+            ResultSet resultSet = statement.executeQuery(selectAllMoviesSQL);
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String title = resultSet.getString("movieTitle");
+                String year = resultSet.getString("year");
+                int metascore = resultSet.getInt("metascore");
+                double userRating = resultSet.getDouble("userRating");
+
+                Movie movie = new Movie(id, title, year, metascore, userRating);
+
+                allMovies.add(movie);
+            }
+            return allMovies;
+
+        } catch (SQLException sqle) {
+            System.err.println("Error: " + sqle);
+            return null;
+        }
     }
 
 

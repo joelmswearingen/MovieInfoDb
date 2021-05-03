@@ -13,6 +13,16 @@ public class Movie {
     private Date dateAdded;
     private Date dateUpdated;
 
+    // constructor for when a Movie object is passed to the MovieListGUI
+    public Movie(int id, String title, String year,
+                 int metascore, double userRating) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.metascore = metascore;
+        this.userRating = userRating;
+    }
+
     // constructor for when a Movie objects is passed to the MovieStore without an updated userRating
     public Movie(String title, String year, String plot,
                  int metascore, double userRating, Date dateAdded, Date dateUpdated) {
