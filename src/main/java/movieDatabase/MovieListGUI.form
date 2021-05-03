@@ -28,7 +28,9 @@
         <children>
           <component id="efd84" class="javax.swing.JTable" binding="movieListTable">
             <constraints/>
-            <properties/>
+            <properties>
+              <autoCreateRowSorter value="true"/>
+            </properties>
           </component>
         </children>
       </scrollpane>
