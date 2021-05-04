@@ -2,6 +2,7 @@ package movieDatabase;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,21 +33,35 @@ public class MovieListGUI extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        // upon launch, populate movie list from db
         // table setup
         defaultTableModel = new DefaultTableModel();
         movieListTable.setModel(defaultTableModel);
         movieListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         movieListTable.setRowSelectionAllowed(true);
+        movieListTable.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+        movieListTable.getTableHeader().setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+        movieListTable.setShowGrid(false);
+        movieListTable.setShowHorizontalLines(true);
+        movieListTable.setGridColor(Color.GRAY);
 
-        // set column headers for the table in a List and loop through list to set column headers
+        // set column headers for the table in list and loop through list to set column headers
         String[] columns = {"Id", "Movie Title", "Release Year", "Metacritic Score", "My Rating"};
         for ( String column : columns ) {
             defaultTableModel.addColumn(column);
         }
 
+        // set column px width for each table column in list and loop through list to set each width
+        TableColumnModel columnModel = movieListTable.getColumnModel();
+        int[] columnWidths = {56, 330, 120, 140, 120}; // total is 766, which is width of JTable
+        for ( int i = 0; i < columnWidths.length; i++) {
+            columnModel.getColumn(i).setPreferredWidth(columnWidths[i]);
+        }
+
+        // upon launch, populate movie list from db and get user stats
         getTableData();
         setUserStats();
+
+        // call event listeners for button clicks
         eventListeners();
 
     }
