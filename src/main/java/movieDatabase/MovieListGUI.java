@@ -34,7 +34,11 @@ public class MovieListGUI extends JFrame {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         // table setup
-        defaultTableModel = new DefaultTableModel();
+        defaultTableModel = new DefaultTableModel(0, 0) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         movieListTable.setModel(defaultTableModel);
         movieListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         movieListTable.setRowSelectionAllowed(true);
@@ -100,16 +104,17 @@ public class MovieListGUI extends JFrame {
                     String metascoreAsString = movieRecord.get(3);
                     String userRatingAsString = movieRecord.get(4);
 
+                    // parse string to int as needed
                     int id = Integer.parseInt(idAsString);
                     int metascore = Integer.parseInt(metascoreAsString);
                     double userRating = Double.parseDouble(userRatingAsString);
 
+                    // create date variable to update dateUpdated
                     Date date = new Date();
 
                     Movie updateMovieRating = new Movie(id, title, year, metascore, userRating, date);
 
                     Main.rateMovieGUI = new RateMovieGUI(controller, updateMovieRating);
-
 
                 } catch (NumberFormatException nfe) {
                     System.out.println("Error: " + nfe);
