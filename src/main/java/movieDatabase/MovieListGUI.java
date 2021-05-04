@@ -124,6 +124,7 @@ public class MovieListGUI extends JFrame {
 
                     if (deleted) {
                         getTableData();
+                        setUserStats();
                         JOptionPane.showMessageDialog(MovieListGUI.this, "Movie has been deleted");
                     } else {
                         errorDialog("Movie was not deleted. Please try again.");
@@ -167,7 +168,7 @@ public class MovieListGUI extends JFrame {
     }
 
     private void setUserStats() {
-        double avgRating = controller.getAverageMovieRating();
+        double avgRating = controller.getAverageMovieRating();  // if movie table is empty, query will return 0.0 as avgRating
         averageRatingLabel.setText("My Average Rating is " + avgRating + " stars");
 
     }
