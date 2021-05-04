@@ -16,10 +16,13 @@ public class Main {
         MovieController movieController = new MovieController(movieStore, movieSearch);
         movieGUI = new MovieGUI(movieController);
 
-
-
-
     }
+
+    public static void quit() {
+        movieGUI.dispose();
+    }
+
+
 
 
 }

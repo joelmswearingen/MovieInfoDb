@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 public class MovieStore {
 
@@ -87,6 +88,27 @@ public class MovieStore {
 
     }
 
+    public void updateMovieUserRating(Movie movieToUpdate) throws SQLException {
+
+        String updateUserRatingSQL = "UPDATE movie SET userRating = ?, dateUpdated = ? WHERE id = ?";
+
+        try (Connection connection = DriverManager.getConnection(dbURI);
+             PreparedStatement preparedStatement = connection.prepareStatement(updateUserRatingSQL)) {
+
+            preparedStatement.setDouble(1, movieToUpdate.getUserRating());
+            preparedStatement.setLong(2, movieToUpdate.getDateUpdated().getTime());
+            preparedStatement.setInt(3, movieToUpdate.getId());
+
+            // execute UPDATE statement
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException sqle) {
+            System.err.println("Error: " + sqle);
+            throw sqle;
+        }
+
+    }
+
 
     public boolean searchByTitle(String omdbMovieTitle, String omdbMovieYear) {
 
@@ -117,12 +139,12 @@ public class MovieStore {
 
     public List<Movie> getAllMovies() {
 
-        try(Connection connection = DriverManager.getConnection(dbURI);
-            Statement statement = connection.createStatement()) {
+        try (Connection connection = DriverManager.getConnection(dbURI);
+             Statement statement = connection.createStatement()) {
 
             List<Movie> allMovies = new ArrayList<>();
 
-            String selectAllMoviesSQL = "SELECT id, movieTitle, year, metascore, userRating FROM movie ORDER BY movieTitle";
+            String selectAllMoviesSQL = "SELECT * FROM movie ORDER BY movieTitle";
 
             ResultSet resultSet = statement.executeQuery(selectAllMoviesSQL);
 
@@ -130,10 +152,16 @@ public class MovieStore {
                 int id = resultSet.getInt("id");
                 String title = resultSet.getString("movieTitle");
                 String year = resultSet.getString("year");
+                String plot = resultSet.getString("moviePlot");
                 int metascore = resultSet.getInt("metascore");
                 double userRating = resultSet.getDouble("userRating");
+                long dateAdded = resultSet.getLong("dateAdded");
+                long dateUpdated = resultSet.getLong("dateUpdated");
 
-                Movie movie = new Movie(id, title, year, metascore, userRating);
+                Date dateAdd = new Date(dateAdded);
+                Date dateUpdt = new Date(dateUpdated);
+
+                Movie movie = new Movie(id, title, year, plot, metascore, userRating, dateAdd, dateUpdt);
 
                 allMovies.add(movie);
             }
@@ -142,6 +170,42 @@ public class MovieStore {
         } catch (SQLException sqle) {
             System.err.println("Error: " + sqle);
             return null;
+        }
+    }
+
+    public void deleteByMovieId(int movieId) throws SQLException {
+
+        String deleteMovieSQL = "DELETE FROM movie WHERE id = ?";
+
+        try (Connection connection = DriverManager.getConnection(dbURI);
+             PreparedStatement preparedStatement = connection.prepareStatement(deleteMovieSQL)) {
+
+            preparedStatement.setInt(1, movieId);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException sqle) {
+            System.err.println("Error: " + sqle);
+        }
+    }
+
+    public double getAverageRating() {
+
+        try (Connection connection = DriverManager.getConnection(dbURI);
+             Statement statement = connection.createStatement()) {
+
+            String getAverageRatingSQL = "SELECT ROUND(AVG(userRating), 2) AS \"My Average Rating\" FROM movie";
+
+            ResultSet resultSet = statement.executeQuery(getAverageRatingSQL);
+            double avgRating = 0.0;
+            if (resultSet.next()) {
+                avgRating = resultSet.getDouble("My Average Rating");
+            }
+            return avgRating;
+
+        } catch (SQLException sqle) {
+            System.err.println("Error: " + sqle);
+            return 0.0;
         }
     }
 

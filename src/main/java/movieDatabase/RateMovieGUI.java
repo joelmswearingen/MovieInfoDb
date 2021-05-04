@@ -30,7 +30,7 @@ public class RateMovieGUI extends JFrame {
 
         setTitle("Rate and Save");
         setContentPane(mainPanel);
-        setPreferredSize(new Dimension(400, 215));
+        setPreferredSize(new Dimension(550, 215));
         pack();
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -42,9 +42,6 @@ public class RateMovieGUI extends JFrame {
         starRatingButtonsGroup.add(threeStarRadioButton);
         starRatingButtonsGroup.add(fourStarRadioButton);
         starRatingButtonsGroup.add(fiveStarRadioButton);
-
-
-
 
         // set movie title and year that is being reviewed on opening
         String title = movieToRate.getTitle();
@@ -73,19 +70,33 @@ public class RateMovieGUI extends JFrame {
                 if (userRating == 0) {
                     errorDialog("Please select a star rating");
                 } else {
+                    // if object has an ID, send to update method via controller to moviestore
+                    // if object does NOT have an ID, send to add method via controller to moviestore
                     // set Date object with current timestamp
-                    Date date = new Date();
+                    boolean idExists = true;
+                    int id = movieToRate.getId();
+                    if (id <= 0) { idExists = false; }
 
-                    // add to both dateAdded and dateUpdated
-                    // NOTE: after initial add, date updated will be used to capture user updates to the db
-                    movieToRate.setDateAdded(date);
-                    movieToRate.setDateUpdated(date);
-                    boolean added = controller.addMovieToDatabase(movieToRate);
-
-                    if (added) {
-                        dispose();
+                    if (idExists) {
+                        boolean updated = controller.updateMovieInDatabase(movieToRate);
+                        if (updated) {
+                            dispose();
+                        } else {
+                            errorDialog("Something went wrong. Please select \"Cancel\" and try again.");
+                        }
                     } else {
-                        errorDialog("Something went wrong. Please select \"Cancel\" and try again.");
+                        // add to both dateAdded and dateUpdated
+                        // NOTE: after initial add, date updated will be used to capture user updates to the db
+                        Date date = new Date();
+                        movieToRate.setDateAdded(date);
+                        movieToRate.setDateUpdated(date);
+                        boolean added = controller.addMovieToDatabase(movieToRate);
+
+                        if (added) {
+                            dispose();
+                        } else {
+                            errorDialog("Something went wrong. Please select \"Cancel\" and try again.");
+                        }
                     }
                 }
             }

@@ -1,6 +1,7 @@
 package movieDatabase;
 
 import java.sql.SQLException;
+import java.sql.Date;
 import java.util.List;
 
 public class MovieController {
@@ -28,12 +29,39 @@ public class MovieController {
         }
     }
 
+    protected boolean updateMovieInDatabase(Movie movieToUpdate) {
+        try {
+            movieStore.updateMovieUserRating(movieToUpdate);
+            return true;
+        } catch (SQLException sqle) {
+            return false;
+        }
+    }
+
     protected boolean searchDbByMovieTitle(String omdbMovieTitle, String omdbMovieYear) {
         return movieStore.searchByTitle(omdbMovieTitle, omdbMovieYear);
     }
 
     protected List<Movie> getAllMoviesFromDatabase() {
         return movieStore.getAllMovies();
+    }
+
+    protected boolean deleteMovieFromDatabase(int movieId) {
+        try {
+            movieStore.deleteByMovieId(movieId);
+            return true;
+        } catch (SQLException sqle) {
+            return false;
+        }
+
+    }
+
+    protected double getAverageMovieRating() {
+        return movieStore.getAverageRating();
+    }
+
+    protected void quitProgram() {
+        Main.quit();
     }
 
 

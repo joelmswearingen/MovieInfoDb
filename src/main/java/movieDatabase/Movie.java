@@ -13,6 +13,18 @@ public class Movie {
     private Date dateAdded;
     private Date dateUpdated;
 
+    // constructor with all data fields in db
+    public Movie(int id, String title, String year, String plot, int metascore, double userRating, Date dateAdded, Date dateUpdated) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.plot = plot;
+        this.metascore = metascore;
+        this.userRating = userRating;
+        this.dateAdded = dateAdded;
+        this.dateUpdated = dateUpdated;
+    }
+
     // constructor for when a Movie object is passed to the MovieListGUI
     public Movie(int id, String title, String year,
                  int metascore, double userRating) {
@@ -21,6 +33,17 @@ public class Movie {
         this.year = year;
         this.metascore = metascore;
         this.userRating = userRating;
+    }
+
+    // constructor for when a Movie object is passed from the MovieListGUI
+    public Movie(int id, String title, String year,
+                 int metascore, double userRating, Date dateUpdated) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.metascore = metascore;
+        this.userRating = userRating;
+        this.dateUpdated = dateUpdated;
     }
 
     // constructor for when a Movie objects is passed to the MovieStore without an updated userRating

@@ -19,6 +19,8 @@ public class MovieGUI extends JFrame {
     private JButton saveMovieWithoutRatingButton;
     private JLabel movieSearchResultsLabel;
     private JTextField optionalYearTextField;
+    private JButton closeButton;
+    private JLabel funFactLabel;
 
     private DefaultListModel<OmdbResponse> movieDetailsListModel;
 
@@ -29,16 +31,20 @@ public class MovieGUI extends JFrame {
 
         setTitle("Open Movie Database Movie Finder");
         setContentPane(mainPanel);
-        setPreferredSize(new Dimension(700, 375));
+        setPreferredSize(new Dimension(700, 385));
         pack();
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
 
         movieDetailsListModel = new DefaultListModel<>();
         movieDetailsList.setModel(movieDetailsListModel);
         movieDetailsList.setCellRenderer(new MyListCellRenderer());
         movieDetailsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        funFactLabel.setText("" +
+                "<html><body style='width: 300px;'>" +
+                "The world's earliest surviving motion-picture film is <i>Roundhay Garden Scene</i> (1888)" +
+                "</body></html>");
 
         eventListeners();
 
@@ -88,7 +94,7 @@ public class MovieGUI extends JFrame {
                 // get selected item from movieDetailsList JList
                 OmdbResponse selectedMovie = movieDetailsList.getSelectedValue();
                 if (selectedMovie == null) {
-                     errorDialog("Please select a movie");
+                     errorDialog("Please select a movie to rate");
                      return;
                 }
 
@@ -183,6 +189,13 @@ public class MovieGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.movieListGUI = new MovieListGUI(controller);
+            }
+        });
+
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.quitProgram();
             }
         });
 
