@@ -25,15 +25,6 @@ public class MyListCellRenderer extends JLabel implements ListCellRenderer<OmdbR
         String metascore = value.Metascore;
         String plot = value.Plot;
 
-        // metascore may be returned as N/A in which case we don't want to display %
-        // create variable include or exclude % dependent on value that is returned
-        String hasMetascore = "%";
-
-        if (metascore.equals("N/A")) {
-            hasMetascore = "";
-        }
-
-
         // add wrap functionality
         int jListWidth = movieDetailsList.getWidth();
 
@@ -47,7 +38,7 @@ public class MyListCellRenderer extends JLabel implements ListCellRenderer<OmdbR
                 "YEAR: " + year + "<br/>" +
                 "RATED: " + rated + "<br/>" +
                 "STARRING: " + actors + "<br/>" +
-                "RATING: " + metascore + hasMetascore + "<br/>" +
+                "METACRITIC SCORE: " + metascore + "<br/>" +
                 "PLOT: " + plot + "</body></html>";
 
 
