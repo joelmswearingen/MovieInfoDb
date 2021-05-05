@@ -10,7 +10,7 @@ public class MyListCellRenderer extends JLabel implements ListCellRenderer<OmdbR
     public MyListCellRenderer() {
         setOpaque(true);
     }
-    
+
     @Override
     public Component getListCellRendererComponent(
             JList<? extends OmdbResponse> movieDetailsList,
