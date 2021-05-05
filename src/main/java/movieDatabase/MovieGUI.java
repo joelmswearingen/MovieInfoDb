@@ -66,33 +66,21 @@ public class MovieGUI extends JFrame {
                 // clear the listModel, to clean the GUI up.
                 clearListData();
 
-//                List<OmdbResponse> omdbResponseList = new ArrayList<>();
+
 
                 if (searchTerm.isBlank()) {
                     errorDialog("Search field cannot be blank");
                 } else {
-                    // TODO disable search button here
                     // Disable search button and change text while thread
                     searchButton.setEnabled(false);
                     searchButton.setText("Searching...");
 
-                    OmdbResponse response = controller.openMovieDatabaseQuery(searchTerm, searchYear);
-                    // MovieSearch search = new MovieSearch(searchTerm, searchYear);
-                    // search.execute();
-                    updateMovie(response);
+                    MovieSearch search = new MovieSearch(searchTerm, searchYear);
+                    search.execute();
 
-//                    // TODO move this to it's own method 'updateMovie()'
-//                    String movieTitle = response.Title;
-//                    if (movieTitle != null) {
-//                        omdbResponseList.add(response);
-//                        setListData(omdbResponseList);
-//                    } else {
-//                        setMovieSearchResultsLabelWithTimer("\"" + searchTerm + "\" not found. Please try again.");
-//                    }
-//                    searchTextField.setText("");
-//                    optionalYearTextField.setText("");
+//                    OmdbResponse response = controller.openMovieDatabaseQuery(searchTerm, searchYear);
+//                    updateMovie(response);
                 }
-
             }
         });
 
@@ -211,7 +199,6 @@ public class MovieGUI extends JFrame {
 
 
     public void updateMovie(OmdbResponse response) {
-
         List<OmdbResponse> omdbResponseList = new ArrayList<>();
 
         String movieTitle = response.Title;
@@ -223,11 +210,12 @@ public class MovieGUI extends JFrame {
         }
         searchTextField.setText("");
         optionalYearTextField.setText("");
-        // TODO enable search button here
+        // enable search button
         searchButton.setEnabled(true);
         searchButton.setText("Search");
 
     }
+
 
     private void setListData(List<OmdbResponse> omdbResponses) {
         movieDetailsListModel.clear();

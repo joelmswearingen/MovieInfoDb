@@ -1,27 +1,26 @@
 package movieDatabase;
 
 import java.sql.SQLException;
-import java.sql.Date;
 import java.util.List;
 
 public class MovieController {
 
     MovieStore movieStore;
-    MovieSearch movieSearch;
+    // MovieSearch movieSearch;
 
-    MovieController(MovieStore store, MovieSearch search) {
+    MovieController(MovieStore store) {
         movieStore = store;
-        movieSearch = search;
     }
+
+//    MovieController(MovieStore store, MovieSearch search) {
+//        movieStore = store;
+//        movieSearch = search;
+//    }
 
 
 //    protected OmdbResponse openMovieDatabaseQuery(String searchTerm, String searchYear) {
 //        return movieSearch.searchOpenMovieDatabase(searchTerm, searchYear);
 //    }
-
-        protected OmdbResponse openMovieDatabaseQuery(String searchTerm, String searchYear) {
-        return movieSearch.searchOpenMovieDatabase(searchTerm, searchYear);
-    }
 
 
     protected boolean addMovieToDatabase(Movie movieToAdd) {
