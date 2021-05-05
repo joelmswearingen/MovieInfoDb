@@ -183,6 +183,7 @@ public class MovieGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.movieListGUI = new MovieListGUI(controller);
+                showAllSavedMoviesButton.setEnabled(false);
             }
         });
 
@@ -192,6 +193,11 @@ public class MovieGUI extends JFrame {
                 controller.quitProgram();
             }
         });
+
+    }
+
+    public void enableShowAllMoviesButton() {
+        showAllSavedMoviesButton.setEnabled(true);
 
     }
 
@@ -219,6 +225,7 @@ public class MovieGUI extends JFrame {
         movieDetailsListModel.clear();
         if (omdbResponses != null) {
             movieDetailsListModel.addAll(omdbResponses);
+            movieDetailsList.setSelectedIndex(0);
         }
     }
 

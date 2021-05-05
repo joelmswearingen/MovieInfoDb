@@ -30,6 +30,7 @@
             <constraints/>
             <properties>
               <autoCreateRowSorter value="true"/>
+              <updateSelectionOnSort value="false"/>
             </properties>
           </component>
         </children>

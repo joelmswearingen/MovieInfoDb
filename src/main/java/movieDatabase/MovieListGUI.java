@@ -31,7 +31,7 @@ public class MovieListGUI extends JFrame {
         setPreferredSize(new Dimension(800, 450));
         pack();
         setVisible(true);
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); // take user ability away to close from windows constants - must use Close button
 
         // table setup
         defaultTableModel = new DefaultTableModel(0, 0) {
@@ -83,15 +83,15 @@ public class MovieListGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // ensure a line is selected
-                int column = movieListTable.getSelectedColumn();
-                if (column == -1) {
+                int row = movieListTable.getSelectedRow();
+                if (row == -1) {
                     errorDialog("Please select a movie to update rating");
                     return;
                 }
 
                 try {
                     int columns = movieListTable.getColumnCount();
-                    int row = movieListTable.getSelectedRow(); // gives you row index
+                    row = movieListTable.getSelectedRow(); // gives you row index
                     ArrayList<String> movieRecord = new ArrayList<>();
                     for (int i = 0; i < columns; i++) {
                         String movieElement = movieListTable.getModel().getValueAt(row, i).toString();
@@ -127,15 +127,14 @@ public class MovieListGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // ensure a line is selected
-                int column = movieListTable.getSelectedColumn();
-                if (column == -1) {
+                int row = movieListTable.getSelectedRow();
+                if (row == -1) {
                     errorDialog("Please select a movie to remove");
                     return;
                 }
 
                 try {
-
-                    int row = movieListTable.getSelectedRow();
+                    row = movieListTable.getSelectedRow();
                     String movieIdAsString = movieListTable.getModel().getValueAt(row, 0).toString();
 
                     int movieId = Integer.parseInt(movieIdAsString);
@@ -160,6 +159,7 @@ public class MovieListGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                Main.movieGUI.enableShowAllMoviesButton();
             }
         });
 
@@ -183,6 +183,7 @@ public class MovieListGUI extends JFrame {
             String[] record = {id, title, year, metascore, userRating};
 
             defaultTableModel.addRow(record);
+            movieListTable.setRowSelectionInterval(0,0);
 
         }
     }
