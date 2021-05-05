@@ -165,7 +165,7 @@ public class MovieListGUI extends JFrame {
 
     }
 
-    private void getTableData() {
+    public void getTableData() {
         // query db to populate movie table. send results to setTableData method to populate table
         List<Movie> allMovies = controller.getAllMoviesFromDatabase();
         setTableData(allMovies);
@@ -187,7 +187,7 @@ public class MovieListGUI extends JFrame {
         }
     }
 
-    private void setUserStats() {
+    public void setUserStats() {
         double avgRating = controller.getAverageMovieRating();  // if movie table is empty, query will return 0.0 as avgRating
         averageRatingLabel.setText("My Average Rating is " + avgRating + " stars");
 

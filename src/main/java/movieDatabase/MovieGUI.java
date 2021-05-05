@@ -121,9 +121,7 @@ public class MovieGUI extends JFrame {
                     Movie movieToRate = new Movie(title, year, plot, score, userRating);
 
                     Main.rateMovieGUI = new RateMovieGUI(controller, movieToRate);
-                    // TODO how to make these execute after new RateMovieGUI screen is disposed.
-                    clearListData();
-                    setMovieSearchResultsLabelWithTimer(title + " has been added to your Movies List!");
+
                 } catch (NumberFormatException nfe) {
                     System.err.println("Error: " + nfe);
                     throw nfe;
@@ -225,10 +223,10 @@ public class MovieGUI extends JFrame {
     }
 
 
-    private void clearListData() { movieDetailsListModel.clear(); }
+    public void clearListData() { movieDetailsListModel.clear(); }
 
 
-    private void setMovieSearchResultsLabelWithTimer(String label) {
+    public void setMovieSearchResultsLabelWithTimer(String label) {
         movieSearchResultsLabel.setText(label);
         Timer timer = new Timer(5000, event -> {
             movieSearchResultsLabel.setText("");

@@ -81,6 +81,8 @@ public class RateMovieGUI extends JFrame {
                         boolean updated = controller.updateMovieInDatabase(movieToRate);
                         if (updated) {
                             dispose();
+                            Main.movieListGUI.getTableData();
+                            Main.movieListGUI.setUserStats();
                         } else {
                             errorDialog("Something went wrong. Please select \"Cancel\" and try again.");
                         }
@@ -94,6 +96,8 @@ public class RateMovieGUI extends JFrame {
 
                         if (added) {
                             dispose();
+                            Main.movieGUI.clearListData();
+                            Main.movieGUI.setMovieSearchResultsLabelWithTimer(movieToRate.getTitle() + " has been added to your Movies List!");
                         } else {
                             errorDialog("Something went wrong. Please select \"Cancel\" and try again.");
                         }
