@@ -15,7 +15,11 @@ public class MovieController {
     }
 
 
-    protected OmdbResponse openMovieDatabaseQuery(String searchTerm, String searchYear) {
+//    protected OmdbResponse openMovieDatabaseQuery(String searchTerm, String searchYear) {
+//        return movieSearch.searchOpenMovieDatabase(searchTerm, searchYear);
+//    }
+
+        protected OmdbResponse openMovieDatabaseQuery(String searchTerm, String searchYear) {
         return movieSearch.searchOpenMovieDatabase(searchTerm, searchYear);
     }
 

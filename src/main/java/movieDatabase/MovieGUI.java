@@ -66,23 +66,31 @@ public class MovieGUI extends JFrame {
                 // clear the listModel, to clean the GUI up.
                 clearListData();
 
-                List<OmdbResponse> omdbResponseList = new ArrayList<>();
+//                List<OmdbResponse> omdbResponseList = new ArrayList<>();
 
                 if (searchTerm.isBlank()) {
                     errorDialog("Search field cannot be blank");
                 } else {
-                    OmdbResponse response = controller.openMovieDatabaseQuery(searchTerm, searchYear);
+                    // TODO disable search button here
+                    // Disable search button and change text while thread
+                    searchButton.setEnabled(false);
+                    searchButton.setText("Searching...");
 
-                    String movieTitle = response.Title;
-                    if (movieTitle != null) {
-                        omdbResponseList.add(response);
-                        setListData(omdbResponseList);
-                    } else {
-                        clearListData();
-                        setMovieSearchResultsLabelWithTimer("\"" + searchTerm + "\" not found. Please try again.");
-                    }
-                    searchTextField.setText("");
-                    optionalYearTextField.setText("");
+                    OmdbResponse response = controller.openMovieDatabaseQuery(searchTerm, searchYear);
+                    // MovieSearch search = new MovieSearch(searchTerm, searchYear);
+                    // search.execute();
+                    updateMovie(response);
+
+//                    // TODO move this to it's own method 'updateMovie()'
+//                    String movieTitle = response.Title;
+//                    if (movieTitle != null) {
+//                        omdbResponseList.add(response);
+//                        setListData(omdbResponseList);
+//                    } else {
+//                        setMovieSearchResultsLabelWithTimer("\"" + searchTerm + "\" not found. Please try again.");
+//                    }
+//                    searchTextField.setText("");
+//                    optionalYearTextField.setText("");
                 }
 
             }
@@ -199,6 +207,25 @@ public class MovieGUI extends JFrame {
             }
         });
 
+    }
+
+
+    public void updateMovie(OmdbResponse response) {
+
+        List<OmdbResponse> omdbResponseList = new ArrayList<>();
+
+        String movieTitle = response.Title;
+        if (movieTitle != null) {
+            omdbResponseList.add(response);
+            setListData(omdbResponseList);
+        } else {
+            setMovieSearchResultsLabelWithTimer("Movie not found. Please try again.");
+        }
+        searchTextField.setText("");
+        optionalYearTextField.setText("");
+        // TODO enable search button here
+        searchButton.setEnabled(true);
+        searchButton.setText("Search");
 
     }
 
@@ -209,7 +236,9 @@ public class MovieGUI extends JFrame {
         }
     }
 
+
     private void clearListData() { movieDetailsListModel.clear(); }
+
 
     private void setMovieSearchResultsLabelWithTimer(String label) {
         movieSearchResultsLabel.setText(label);
@@ -219,6 +248,7 @@ public class MovieGUI extends JFrame {
         timer.setRepeats(false);
         timer.start();
     }
+
 
     // word wrap in JOptionPane code found here: https://stackoverflow.com/questions/7861724/is-there-a-word-wrap-property-for-jlabel/7861833#7861833
     private void errorDialog(String errorMessage) {
