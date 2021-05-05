@@ -5,11 +5,12 @@ import java.awt.*;
 
 public class MyListCellRenderer extends JLabel implements ListCellRenderer<OmdbResponse> {
 
+
     // constructor to set
     public MyListCellRenderer() {
         setOpaque(true);
     }
-
+    
     @Override
     public Component getListCellRendererComponent(
             JList<? extends OmdbResponse> movieDetailsList,
@@ -32,7 +33,6 @@ public class MyListCellRenderer extends JLabel implements ListCellRenderer<OmdbR
         if (metascore.equals("N/A")) {
             hasMetascore = "";
         }
-
 
         // add wrap functionality
         int jListWidth = movieDetailsList.getWidth();
