@@ -1,5 +1,9 @@
 package movieDatabase;
 
+/** Created by Joel Swearingen May 2021
+ * This file manages the connection between the GUI and the code that talks to the database.
+ * In general, it either passes objects or boolean values to let the GUI know processing has been successful or not. */
+
 import java.sql.SQLException;
 import java.util.List;
 

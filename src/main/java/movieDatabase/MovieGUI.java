@@ -1,5 +1,8 @@
 package movieDatabase;
 
+/** Created by Joel Swearingen May 2021
+ * This file manages primary GUI and all of it's buttons and displays */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -71,6 +74,7 @@ public class MovieGUI extends JFrame {
                 if (searchTerm.isBlank()) {
                     errorDialog("Search field cannot be blank");
                 } else {
+                    // movie search in the background
                     // Disable search button and change text while thread
                     searchButton.setEnabled(false);
                     searchButton.setText("Searching...");
@@ -183,7 +187,7 @@ public class MovieGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.movieListGUI = new MovieListGUI(controller);
-                showAllSavedMoviesButton.setEnabled(false);
+                showAllSavedMoviesButton.setEnabled(false);  // prevent the user from opening multiple instances of the movie list
             }
         });
 
@@ -197,11 +201,12 @@ public class MovieGUI extends JFrame {
     }
 
     public void enableShowAllMoviesButton() {
-        showAllSavedMoviesButton.setEnabled(true);
+        showAllSavedMoviesButton.setEnabled(true); // re-enable show all button if listGUI is closed
 
     }
 
 
+    // once API call is completed, use this method to finish updating main GUI and re-enable buttons, etc.
     public void updateMovie(OmdbResponse response) {
         List<OmdbResponse> omdbResponseList = new ArrayList<>();
 
@@ -233,6 +238,7 @@ public class MovieGUI extends JFrame {
     public void clearListData() { movieDetailsListModel.clear(); }
 
 
+    // set a timer on the display label field so that inaccurate text isn't hanging around
     public void setMovieSearchResultsLabelWithTimer(String label) {
         movieSearchResultsLabel.setText(label);
         Timer timer = new Timer(5000, event -> {

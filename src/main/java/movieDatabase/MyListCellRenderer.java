@@ -1,5 +1,8 @@
 package movieDatabase;
 
+/** Created by Joel Swearingen May 2021
+ * This file manages how a cell in a JList appears to the user */
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -43,6 +46,7 @@ public class MyListCellRenderer extends JLabel implements ListCellRenderer<OmdbR
         As a result you can only see the full text by resizing the app.
         */
 
+        // formatting the cell is handled with HTML and CSS
         String labelText = "<html><body style='width: " + jListWidth + "px;'>MOVIE: " + title + "<br/>" +
                 "YEAR: " + year + "<br/>" +
                 "RATED: " + rated + "<br/>" +
@@ -61,6 +65,7 @@ public class MyListCellRenderer extends JLabel implements ListCellRenderer<OmdbR
 
         setText(labelText);
 
+        //
         if (isSelected) {
             setBackground(movieDetailsList.getSelectionBackground());
             setForeground(movieDetailsList.getSelectionForeground());

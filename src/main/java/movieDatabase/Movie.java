@@ -1,5 +1,9 @@
 package movieDatabase;
 
+/** Created by Joel Swearingen May 2021
+ * This file manages Movie objects. It contains various constructors for scenario specific movie object instances,
+ * getters and setter since fields are private, and a toString() method to allow for human-readable printed as needed. */
+
 import java.util.Date;
 
 public class Movie {
@@ -68,6 +72,7 @@ public class Movie {
         this.userRating = userRating;
     }
 
+    // getters and setters
     public int getId() {
         return id;
     }
@@ -132,6 +137,7 @@ public class Movie {
         this.dateUpdated = dateUpdated;
     }
 
+    // toString human-readable object instance
     @Override
     public String toString() {
         return "Movie{" +

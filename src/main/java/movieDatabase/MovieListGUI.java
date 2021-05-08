@@ -1,5 +1,8 @@
 package movieDatabase;
 
+/** Created by Joel Swearingen May 2021
+ * This file manages a secondary GUI and all of it's buttons and displays  */
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -26,6 +29,7 @@ public class MovieListGUI extends JFrame {
     MovieListGUI(MovieController controller) {
         this.controller = controller;
 
+        // set basic functionality
         setTitle("Review and Update");
         setContentPane(mainPanel);
         setPreferredSize(new Dimension(800, 450));
@@ -98,6 +102,7 @@ public class MovieListGUI extends JFrame {
                         movieRecord.add(movieElement);
                     }
 
+                    // all fields in table are text, get data from each column by index
                     String idAsString = movieRecord.get(0);
                     String title = movieRecord.get(1);
                     String year = movieRecord.get(2);
@@ -171,6 +176,7 @@ public class MovieListGUI extends JFrame {
         setTableData(allMovies);
     }
 
+    // set table with data from getTableData() method
     private void setTableData(List<Movie> movies) {
         defaultTableModel.setRowCount(0);
         for (Movie movie : movies) {

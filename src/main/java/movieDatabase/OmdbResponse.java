@@ -1,7 +1,8 @@
 package movieDatabase;
 
-import javax.swing.*;
-import java.awt.*;
+/** Created by Joel Swearingen May 2021
+ * This file manages API Response objects.
+ * It contains a single constructor based on the data we want from the API call */
 
 public class OmdbResponse {
 

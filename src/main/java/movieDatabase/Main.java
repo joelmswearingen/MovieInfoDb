@@ -1,5 +1,8 @@
 package movieDatabase;
 
+/** Created by Joel Swearingen May 2021
+ * This file configures Unirest (for API calls), creates the db table, launches the GUI and connects the two.
+ * It also establishes secondary GUIs so that GUI instances can be connected back to other GUIs*/
 
 import com.google.gson.Gson;
 import kong.unirest.ObjectMapper;

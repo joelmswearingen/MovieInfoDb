@@ -1,5 +1,8 @@
 package movieDatabase;
 
+/** Created by Joel Swearingen May 2021
+ * This file manages a secondary GUI that allows the user to rate a selected movie */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -56,6 +59,7 @@ public class RateMovieGUI extends JFrame {
 
     private void eventListeners() {
 
+        // add action listeners to radio button group
         RadioButtonActionListener actionListener = new RadioButtonActionListener();
         oneStarRadioButton.addActionListener(actionListener);
         twoStarRadioButton.addActionListener(actionListener);

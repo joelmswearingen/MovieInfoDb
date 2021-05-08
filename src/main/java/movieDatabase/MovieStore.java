@@ -1,11 +1,15 @@
 package movieDatabase;
 
-import java.lang.reflect.Type;
+/** Created by Joel Swearingen May 2021
+ * This file manages interactions with the database.
+ * This file consumes information passed to it from the MovieController */
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
+// Create a movie table if it does not already exist
 public class MovieStore {
 
     // declare final variable to use for dbURI
@@ -37,7 +41,7 @@ public class MovieStore {
         }
     }
 
-
+    // add a movie to the movie table
     public void addMovie(Movie movieToAdd) throws SQLException {
 
         // SQL Statement to INSERT record into 'movie' table
@@ -88,6 +92,7 @@ public class MovieStore {
 
     }
 
+    // update the user rating for a movie stored in the movie table
     public void updateMovieUserRating(Movie movieToUpdate) throws SQLException {
 
         String updateUserRatingSQL = "UPDATE movie SET userRating = ?, dateUpdated = ? WHERE id = ?";
@@ -110,10 +115,13 @@ public class MovieStore {
     }
 
 
+    // search for a movie stored in the movie table
     public boolean searchByTitle(String omdbMovieTitle, String omdbMovieYear) {
 
         String searchByMovieTitleSQL;
 
+        // This method chooses which query to run depending on whether one or two search fields were submitted with content.
+        // The GUI manages at least the movie title being submitted.
         if (omdbMovieYear.isBlank()) {
             searchByMovieTitleSQL = "SELECT * FROM movie WHERE movieTitle = ?";
         } else {
@@ -137,6 +145,7 @@ public class MovieStore {
 
     }
 
+    // queries the db to get a list of all movies stored in the movie table.
     public List<Movie> getAllMovies() {
 
         try (Connection connection = DriverManager.getConnection(dbURI);
@@ -173,6 +182,7 @@ public class MovieStore {
         }
     }
 
+    // deletes a movie from the movie table
     public void deleteByMovieId(int movieId) throws SQLException {
 
         String deleteMovieSQL = "DELETE FROM movie WHERE id = ?";
@@ -189,6 +199,7 @@ public class MovieStore {
         }
     }
 
+    // calculates the users average movie rating, excluding null values (aka, movies that were not been rated when saved)
     public double getAverageRating() {
 
         try (Connection connection = DriverManager.getConnection(dbURI);
